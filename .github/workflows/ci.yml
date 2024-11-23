@@ -1,5 +1,4 @@
 name: "CI"
-
 on:
   push:
     branches:
@@ -8,12 +7,11 @@ on:
     tags:
     - '*.*.*'
   pull_request:
-
 env:
   DOTNET_NOLOGO: true
-
 permissions:
   contents: read
+  packages: write
   
 jobs:
   build:
@@ -46,4 +44,4 @@ jobs:
         SignClientSecret: ${{ secrets.SIGNCLIENTSECRET }}
       run: |
         ./build.ps1 sign
-        dotnet nuget push .\artifacts\*.nupkg -s https://www.myget.org/F/duende_identityserver/api/v2/package -k ${{ secrets.MYGET }}
+        dotnet nuget push .\artifacts\*.nupkg -s https://nuget.pkg.github.com/shimoranla/index.json -k ${{ secrets.GITHUB_TOKEN }}
